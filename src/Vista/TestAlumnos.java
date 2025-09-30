@@ -5,17 +5,26 @@
  */
 package Vista;
 
+import Modelo.Alumno;
+import Modelo.Conexion;
+import Persistencia.alumnoData;
+
 /**
  *
  * @author Anitabonita
  */
 public class TestAlumnos {
-
+    private Conexion miConexion;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+    }
+    
+    void conectar(Alumno a){
+       miConexion = new Conexion("jdbc:mysql://localhost/gp4_universidadulp","root","");
     }
     
 }
