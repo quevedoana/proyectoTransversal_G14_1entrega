@@ -8,6 +8,9 @@ package Vista;
 import Modelo.Alumno;
 import Modelo.Conexion;
 import Persistencia.alumnoData;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.List;
 
 /**
  *
@@ -19,7 +22,24 @@ public class TestAlumnos {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+       AlumnoData alu=new AlumnoData();
+       List <Alumno>listaAlumno;
+       Alumno alu1=new Alumno(45563392,"Naranjo","Maria Candela",LocalDate.of(2004, Month.MAY,05),true);
+       AlumnoData.guardarAlumno(alu1);
+       Alumno alu2=new Alumno(44075900,"Assat","Antonio Tomas",LocalDate.of(2002, Month.MARCH, 28),true);
+       AlumnoData.guardarAlumno(alu2);
+       Alumno alu3=new Alumno(39137807,"di Fiore","Mariano Enzo",LocalDate.of(1996, Month.JANUARY, 12),true);
+       AlumnoData.guardarAlumno(alu3);
+       Alumno alu4=new Alumno(45886496,"Barroso","Esteban Jose",LocalDate.of(2004, Month.SEPTEMBER, 16),true);
+       AlumnoData.guardarAlumno(alu4);
+       Alumno alu5=new Alumno(43343200,"Quevedo","Ana Banana",LocalDate.of(2001, Month.FEBRUARY, 02),true);
+       AlumnoData.guardarAlumno(alu5);
+       
+       listaAlumno=alu.listarAlumno();
+       
+        for (Alumno alumno : listaAlumno) {
+            System.out.println(alumno);
+        }
         
     }
     
