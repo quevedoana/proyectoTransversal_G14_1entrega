@@ -4,6 +4,11 @@
 # Log file
 *.log
 
+# carpetas
+nbproject/private/
+build/
+dist/
+
 # BlueJ files
 *.ctxt
 
