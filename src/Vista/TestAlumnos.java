@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto_g14;
+package Vista;
 
 /**
  *
  * @author Anitabonita
  */
-public class Proyecto_G14 {
+public class TestAlumnos {
 
     /**
      * @param args the command line arguments
