@@ -5,10 +5,19 @@
  */
 package Persistencia;
 
+import Modelo.Conexion;
+import java.sql.Connection;
+
 /**
  *
  * @author Anitabonita
  */
-public class alumnoData {
+public class AlumnoData {
+    private Connection conexion = null;
+    
+    public AlumnoData(Conexion conex){
+        this.conexion=conex.buscarConexion();
+    }
+    
     
 }
