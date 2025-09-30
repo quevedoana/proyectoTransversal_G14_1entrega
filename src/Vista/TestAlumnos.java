@@ -7,7 +7,7 @@ package Vista;
 
 import Modelo.Alumno;
 import Modelo.Conexion;
-import Persistencia.alumnoData;
+import Persistencia.AlumnoData;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
