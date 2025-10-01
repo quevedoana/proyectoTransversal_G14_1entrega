@@ -56,13 +56,13 @@ public class AlumnoData {
     }
      
     }
-    public Alumno buscarAlumno (int id){ //select 1 alumno
+   /* public Alumno buscarAlumno (int id){ //select 1 alumno
         
     }
     
     public List<Alumno> listarAlumno(){ //select *
         
-    }
+    }*/
     
     public void actualizarAlumno(Alumno a){
         
