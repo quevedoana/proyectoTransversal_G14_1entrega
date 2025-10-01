@@ -10,6 +10,7 @@ import Modelo.Conexion;
 import Persistencia.AlumnoData;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public class TestAlumnos {
    
     public static void main(String[] args) {
        
-       //List <Alumno>listaAlumno;
+       List <Alumno>listaAlumno=new ArrayList();
        Alumno alu1=new Alumno(45563392,"Naranjo","Maria Candela",LocalDate.of(2004, Month.MAY,05),true);
        conectar(alu1);
        Alumno alu2=new Alumno(44075900,"Assat","Antonio Tomas",LocalDate.of(2002, Month.MARCH, 28),true);
@@ -37,20 +38,24 @@ public class TestAlumnos {
        Alumno alu5=new Alumno(43343200,"Quevedo","Ana Banana",LocalDate.of(2001, Month.FEBRUARY, 02),true);
        conectar(alu5);
        
-       //listaAlumno=alu.listarAlumno();
+        System.out.println(alumnoData.buscarAlumno(2));
+       listaAlumno=alumnoData.listarAlumno();
        
-        /*for (Alumno alumno : listaAlumno) {
+        for (Alumno alumno : listaAlumno) {
             System.out.println(alumno);
-        }*/
+        }
+        //alumnoData.guardarAlumno(a);
         
     }
     
     static void conectar(Alumno a){
+       
        miConexion = new Conexion("jdbc:mariadb://localhost/gp14_universidadulp","root","");
        alumnoData = new AlumnoData(miConexion);
-       alumnoData.guardarAlumno(a);
-       //Alumno alu = alumnoData.buscarAlumno(a.getIdAlumno());
-       //System.out.println("Datos "+ alu);
+       
+       
+        
+      
        
        
     }
