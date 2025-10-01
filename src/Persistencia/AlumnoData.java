@@ -96,6 +96,7 @@ public class AlumnoData {
              alumnos.add(alu);
                     
          }
+         ps.close();
         
      }catch(SQLException e){
          Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, e);

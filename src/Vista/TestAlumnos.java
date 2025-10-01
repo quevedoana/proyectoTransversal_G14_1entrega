@@ -38,8 +38,8 @@ public class TestAlumnos {
        Alumno alu5=new Alumno(43343200,"Quevedo","Ana Banana",LocalDate.of(2001, Month.FEBRUARY, 02),true);
        conectar(alu5);
        
-        System.out.println(alumnoData.buscarAlumno(2));
-       listaAlumno=alumnoData.listarAlumno();
+        System.out.println(alumnoData.buscarAlumno(2)); // metodo buscarAlumno
+       listaAlumno=alumnoData.listarAlumno();// metodo listarAlumno
        
         for (Alumno alumno : listaAlumno) {
             System.out.println(alumno);
