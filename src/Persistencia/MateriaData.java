@@ -9,5 +9,7 @@ package Persistencia;
  * @author maria
  */
 public class MateriaData {
+    //ESTEBAN HACE LO QUE PUEDAS DE TODAS LAS CONSULTAS SI NO TE SALEN TODAS LAS COMPLETAMOS DESPUES
+    //insertar, actualizar, buscar, baja/altaLogica, y borrar
     
 }
