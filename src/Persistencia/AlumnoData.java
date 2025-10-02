@@ -104,11 +104,40 @@ public class AlumnoData {
      
      return alumnos;
     }
-    public void actualizarAlumno(Alumno a) {
+    //ACTUALIZAR ALMUNO!
+    
+    public void actualizarAlumno(Alumno a){
+        String query = "UPDATE alumno SET DNI = ?, Apellido = ?, Nombre = ?, FechaNacimiento = ?, Estado = ? WHERE id=?";
+        
+        try{
+            try (PreparedStatement ps = conexion.prepareStatement(query)) {
+                ps.setInt(1, a.getDni());
+                ps.setString(2, a.getApellido());
+                ps.setString(3, a.getNombre());
+                ps.setDate(4, Date.valueOf(a.getFechaNacimiento()));
+                ps.setBoolean(5, a.isEstado());
+                ps.setInt(6, a.getIdAlumno());
+                ps.executeUpdate();
+            }
+            }catch (SQLException e){
+            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, e);
 
+            }
     }
+    
+    //BORRAR ALUMNO
 
-    public void borrarAlumno(int id) {
+    public void BorrarAlumno(Alumno a){
+        String query = "DELETE FROM alumno WHERE IdAlumno = ?";
+        
+        try{
+            try (PreparedStatement ps = conexion.prepareStatement(query)) {
+                ps.setInt(1, a.getIdAlumno());
+                ps.executeUpdate();
+            }
+            }catch (SQLException e){
+            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, e);
 
+            }
     }
 }
