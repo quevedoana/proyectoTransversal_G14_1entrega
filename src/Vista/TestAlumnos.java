@@ -26,9 +26,9 @@ public class TestAlumnos {
    
     public static void main(String[] args) {
        
-       conectar();
        List <Alumno>listaAlumnos=new ArrayList();
-       Alumno alu1=new Alumno(45563392,"Naranjo","Maria Candela",LocalDate.of(2004, Month.MAY,05),true);
+       
+       /*Alumno alu1=new Alumno(45563392,"Naranjo","Maria Candela",LocalDate.of(2004, Month.MAY,05),true);
        alumnoData.guardarAlumno(alu1);
        Alumno alu2=new Alumno(44075900,"Assat","Antonio Tomas",LocalDate.of(2002, Month.MARCH, 28),false);
        alumnoData.guardarAlumno(alu2);
@@ -37,7 +37,8 @@ public class TestAlumnos {
        Alumno alu4=new Alumno(45886496,"Barroso","Esteban Jose",LocalDate.of(2004, Month.SEPTEMBER, 16),true);
        alumnoData.guardarAlumno(alu4);
        Alumno alu5=new Alumno(43343200,"Quevedo","Ana Banana",LocalDate.of(2001, Month.FEBRUARY, 02),true);
-       alumnoData.guardarAlumno(alu5);
+       alumnoData.guardarAlumno(alu5);*/
+        conectar();
        
        System.out.println(alumnoData.buscarAlumno(2)); // metodo buscarAlumno
        listaAlumnos=alumnoData.listarAlumnos();// metodo listarAlumno
@@ -46,24 +47,28 @@ public class TestAlumnos {
             System.out.println(alumno);
         }
         
-        alu5.setNombre("Ana Paula");
-        alumnoData.actualizarAlumno(alu5);
-        System.out.println(alu5);
+        Alumno buscado = alumnoData.buscarAlumno(11111111);
+        buscado.setDni(45563392);
+        buscado.setNombre("Maria Candela");
+        alumnoData.actualizarAlumno(buscado);
+        System.out.println(buscado);
         
-        //alumnoData.BorrarAlumno(9);
+        
+        
+        //alumnoData.BorrarAlumno(4);
         //alumnoData.guardarAlumno(alu4);
         
-        //alumnoData.HabilitarAlumno(alu2);
-        //alumnoData.DeshabilitarAlumno(alu3);
+        //buscado = alumnoData.buscarAlumno(2);
+        //alumnoData.HabilitarAlumno(buscado);
+        //buscado = alumnoData.buscarAlumno(1);
+        //alumnoData.DeshabilitarAlumno(buscado);
         
     }
     
     static void conectar(){
-       
        miConexion = new Conexion("jdbc:mariadb://localhost/gp14_universidadulp","root","");
        alumnoData = new AlumnoData(miConexion);
-       
-
+      
     }
     
 }
