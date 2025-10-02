@@ -26,17 +26,18 @@ public class TestAlumnos {
    
     public static void main(String[] args) {
        
+       conectar();
        List <Alumno>listaAlumnos=new ArrayList();
        Alumno alu1=new Alumno(45563392,"Naranjo","Maria Candela",LocalDate.of(2004, Month.MAY,05),true);
-       conectar(alu1);
-       Alumno alu2=new Alumno(44075900,"Assat","Antonio Tomas",LocalDate.of(2002, Month.MARCH, 28),true);
-       conectar(alu2);
+       alumnoData.guardarAlumno(alu1);
+       Alumno alu2=new Alumno(44075900,"Assat","Antonio Tomas",LocalDate.of(2002, Month.MARCH, 28),false);
+       alumnoData.guardarAlumno(alu2);
        Alumno alu3=new Alumno(39137807,"di Fiore","Mariano Enzo",LocalDate.of(1996, Month.JANUARY, 12),true);
-       conectar(alu3);
+       alumnoData.guardarAlumno(alu3);
        Alumno alu4=new Alumno(45886496,"Barroso","Esteban Jose",LocalDate.of(2004, Month.SEPTEMBER, 16),true);
-       conectar(alu4);
+       alumnoData.guardarAlumno(alu4);
        Alumno alu5=new Alumno(43343200,"Quevedo","Ana Banana",LocalDate.of(2001, Month.FEBRUARY, 02),true);
-       conectar(alu5);
+       alumnoData.guardarAlumno(alu5);
        
        System.out.println(alumnoData.buscarAlumno(2)); // metodo buscarAlumno
        listaAlumnos=alumnoData.listarAlumnos();// metodo listarAlumno
@@ -44,15 +45,25 @@ public class TestAlumnos {
         for (Alumno alumno : listaAlumnos) {
             System.out.println(alumno);
         }
-        //alumnoData.guardarAlumno(a);
+        
+        alu5.setNombre("Ana Paula");
+        alumnoData.actualizarAlumno(alu5);
+        System.out.println(alu5);
+        
+        //alumnoData.BorrarAlumno(9);
+        //alumnoData.guardarAlumno(alu4);
+        
+        //alumnoData.HabilitarAlumno(alu2);
+        //alumnoData.DeshabilitarAlumno(alu3);
         
     }
     
-    static void conectar(Alumno a){
+    static void conectar(){
        
        miConexion = new Conexion("jdbc:mariadb://localhost/gp14_universidadulp","root","");
        alumnoData = new AlumnoData(miConexion);
- 
+       
+
     }
     
 }

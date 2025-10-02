@@ -102,13 +102,13 @@ public class AlumnoData {
 
         return alumnos;
     }
+    
     //ACTUALIZAR ALMUNO!
-
     public void actualizarAlumno(Alumno a) {
-        String query = "UPDATE alumno SET DNI = ?, Apellido = ?, Nombre = ?, FechaNacimiento = ?, Estado = ? WHERE id=?";
+        String query = "UPDATE alumno SET DNI = ?, Apellido = ?, Nombre = ?, FechaNacimiento = ?, Estado = ? WHERE idAlumno = ?";
 
         try {
-            try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            PreparedStatement ps = conexion.prepareStatement(query);
                 ps.setInt(1, a.getDni());
                 ps.setString(2, a.getApellido());
                 ps.setString(3, a.getNombre());
@@ -116,19 +116,22 @@ public class AlumnoData {
                 ps.setBoolean(5, a.isEstado());
                 ps.setInt(6, a.getIdAlumno());
                 ps.executeUpdate();
-            }
+                
+                ps.close();
+            
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el alumno" + e.getMessage());
         }
+        
     }
 
     //BORRAR ALUMNO
-    public void BorrarAlumno(Alumno a) {
+    public void BorrarAlumno(int id) {
         String query = "DELETE FROM alumno WHERE IdAlumno = ?";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, a.getIdAlumno());
+            ps.setInt(1, id);
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -137,7 +140,32 @@ public class AlumnoData {
     }
     
     //ALTA LOGICA = darle estado activo a los inactivos?
-    
+    public void HabilitarAlumno(Alumno a){
+        String query = "UPADATE alumno SET estado = ? WHERE estado = 1";
+        
+        try {
+            PreparedStatement ps = conexion.prepareStatement(query);
+            
+                ps.setBoolean(1, a.isEstado());
+                ps.executeUpdate();
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al habilitar el alumno" + e.getMessage());
+        }
+    }
     
     //BAJA LOGICA = darle estado inactivo a los activos?
+     public void DeshabilitarAlumno(Alumno a){
+        String query = "UPADATE alumno SET estado = ? WHERE estado = 0";
+        
+        try {
+            PreparedStatement ps = conexion.prepareStatement(query);
+            
+                ps.setBoolean(1, a.isEstado());
+                ps.executeUpdate();
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al deshabilitar el alumno" + e.getMessage());
+        }
+    }
 }
