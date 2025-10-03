@@ -208,7 +208,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         
         if (confirmacion == JOptionPane.YES_OPTION) {
             try {
-                materiaData.borrarMateria(materiaSeleccionada);
+                materiaData.borrarMateria(materiaSeleccionada.getIdMateria());
                 
                 JOptionPane.showMessageDialog(this, 
                     "Materia eliminada correctamente",
