@@ -10,13 +10,12 @@ public class Materia {
     
     private int idMateria;
     private String Nombre;
-    private int Año;
+    private int Anio;
     private boolean Estado;
 
-    public Materia(int idMateria, String Nombre, int Año, boolean Estado) {
-        this.idMateria = idMateria;
+    public Materia(String Nombre, int Año, boolean Estado) {
         this.Nombre = Nombre;
-        this.Año = Año;
+        this.Anio = Año;
         this.Estado = Estado;
     }
 
@@ -36,12 +35,12 @@ public class Materia {
         this.Nombre = Nombre;
     }
 
-    public int getAño() {
-        return Año;
+    public int getAnio() {
+        return Anio;
     }
 
-    public void setAño(int Año) {
-        this.Año = Año;
+    public void setAnio(int Año) {
+        this.Anio = Año;
     }
 
     public boolean isEstado() {
@@ -54,7 +53,7 @@ public class Materia {
 
     @Override
     public String toString() {
-        return "Materia{" + "idMateria=" + idMateria + ", Nombre=" + Nombre + ", Año=" + Año + ", Estado=" + Estado + '}';
+        return "Materia{" + "idMateria=" + idMateria + ", Nombre=" + Nombre + ", Año=" + Anio + ", Estado=" + Estado + '}';
     }
     
 }
