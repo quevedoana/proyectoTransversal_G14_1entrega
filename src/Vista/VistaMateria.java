@@ -17,64 +17,59 @@ import javax.swing.table.DefaultTableModel;
 public class VistaMateria extends javax.swing.JInternalFrame {
 
     //CANDE
-    
     private MateriaData materiaData;
     private DefaultTableModel modeloTabla;
     private Materia materiaSeleccionada;
-     private List<Materia> materiasEnMemoria;
-    
+    private List<Materia> materiasEnMemoria;
+
     /**
      * Creates new form VistaMateria
      */
-    public VistaMateria() {
+    public VistaMateria(MateriaData materiaData) {
+        this.materiaData = materiaData;
         initComponents();
-        materiaData = new MateriaData();
         configurarComponentes();
         cargarDatosIniciales();
     }
-    
-     private void configurarComponentes() {
-        // Configurar tabla
+
+    private void configurarComponentes() {
         configurarTabla();
-        
-        // Configurar combo box de estados
+
+        //combo box de estados
         comboEstadosMateria.removeAllItems();
         comboEstadosMateria.addItem("Activa");
         comboEstadosMateria.addItem("Inactiva");
-        
-        // Deshabilitar botones que requieren selección
+
+        // deshabilitar botones
         btnBorrarMateria.setEnabled(false);
         btnActualizarMateria.setEnabled(false);
         btnAltaBajaLogica.setEnabled(false);
         comboEstadosMateria.setEnabled(false);
     }
-    
+
     private void configurarTabla() {
         modeloTabla = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Tabla no editable
+                //editar solo nombre y año
+                return column == 1 || column == 2;
             }
         };
-        
+
         modeloTabla.addColumn("ID");
         modeloTabla.addColumn("Nombre");
         modeloTabla.addColumn("Año");
         modeloTabla.addColumn("Estado");
-        
+
         tablaMaterias.setModel(modeloTabla);
-        
-        // Ocultar columna ID
-        tablaMaterias.getColumnModel().getColumn(0).setMinWidth(0);
-        tablaMaterias.getColumnModel().getColumn(0).setMaxWidth(0);
-        tablaMaterias.getColumnModel().getColumn(0).setWidth(0);
+
     }
-    
+
     private void cargarDatosIniciales() {
         try {
-            modeloTabla.setRowCount(0); // Limpiar tabla
+            modeloTabla.setRowCount(0);
             List<Materia> materias = materiaData.listarMaterias();
-            
+
             for (Materia materia : materias) {
                 modeloTabla.addRow(new Object[]{
                     materia.getIdMateria(),
@@ -83,276 +78,185 @@ public class VistaMateria extends javax.swing.JInternalFrame {
                     materia.isEstado() ? "Activa" : "Inactiva"
                 });
             }
-            
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al cargar las materias: " + e.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error al cargar las materias: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void buscarMateriaPorNombre() {
-        String nombre = textBuscarNombreMateria.getText().trim();
-        
+        String nombre = textBuscarNombreMateria.getText().trim(); //leo la materia ingresada
+
         if (nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Ingrese un nombre para buscar", 
-                "Advertencia", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ingrese un nombre para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         try {
-            modeloTabla.setRowCount(0); // Limpiar tabla
-            
-            // Buscar por nombre (necesitarías implementar este método en MateriaData)
-            List<Materia> materias = materiaData.listarMaterias();
-            boolean encontrada = false;
-            
-            for (Materia materia : materias) {
-                if (materia.getNombre().toLowerCase().contains(nombre.toLowerCase())) {
-                    modeloTabla.addRow(new Object[]{
-                        materia.getIdMateria(),
-                        materia.getNombre(),
-                        materia.getAnio(),
-                        materia.isEstado() ? "Activa" : "Inactiva"
-                    });
-                    encontrada = true;
-                }
+            modeloTabla.setRowCount(0);
+
+            Materia materia = materiaData.buscarMateria(nombre);
+
+            if (materia != null) {
+                modeloTabla.addRow(new Object[]{
+                    materia.getIdMateria(),
+                    materia.getNombre(),
+                    materia.getAnio(),
+                    materia.isEstado() ? "Activa" : "Inactiva"
+                });
             }
-            
-            if (!encontrada) {
-                JOptionPane.showMessageDialog(this, 
-                    "No se encontraron materias con ese nombre", 
-                    "Información", JOptionPane.INFORMATION_MESSAGE);
-            }
-            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al buscar materia: " + e.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error al buscar materia: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void agregarMateria() {
         String nombre = textNombreMateria.getText().trim();
         String anioStr = textAñoMateria.getText().trim();
-        
-        // Validaciones
+
+        //controles
         if (nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "El nombre es obligatorio", 
-                "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "El nombre es obligatorio",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             textNombreMateria.requestFocus();
             return;
         }
-        
+
         if (anioStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "El año es obligatorio", 
-                "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "El año es obligatorio",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             textAñoMateria.requestFocus();
             return;
         }
-        
+
         try {
             int anio = Integer.parseInt(anioStr);
-            
+
             if (anio < 2023 || anio > 2027) {
-                JOptionPane.showMessageDialog(this, 
-                    "El año debe estar entre 2023 y 2027", 
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "El año debe estar entre 2023 y 2027",
+                        "Error", JOptionPane.ERROR_MESSAGE);
                 textAñoMateria.requestFocus();
                 return;
             }
-            
-            // Crear y guardar nueva materia (estado true por defecto)
+
             Materia nuevaMateria = new Materia(nombre, anio, true);
             materiaData.guardarMateria(nuevaMateria);
-            
-            JOptionPane.showMessageDialog(this, 
-                "Materia agregada correctamente con ID: " + nuevaMateria.getIdMateria(),
-                "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            
-            // Limpiar campos
+
+            JOptionPane.showMessageDialog(this,
+                    "Materia agregada correctamente con ID: " + nuevaMateria.getIdMateria(),
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
             textNombreMateria.setText("");
             textAñoMateria.setText("");
             textNombreMateria.requestFocus();
-            
+
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, 
-                "El año debe ser un número válido", 
-                "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "El año debe ser un número válido",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             textAñoMateria.requestFocus();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al agregar materia: " + e.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error al agregar materia: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void borrarMateria() {
-        if (materiaSeleccionada == null) {
-            JOptionPane.showMessageDialog(this, 
-                "Seleccione una materia para borrar", 
-                "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
+
         int confirmacion = JOptionPane.showConfirmDialog(this,
-            "¿Está seguro de ELIMINAR PERMANENTEMENTE la materia:\n" +
-            materiaSeleccionada.getNombre() + "?\n\n" +
-            "Esta acción no se puede deshacer.",
-            "Confirmar Eliminación",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE);
-        
+                "¿Está seguro de ELIMINAR PERMANENTEMENTE la materia:\n"
+                + materiaSeleccionada.getNombre() + "?\n\n"
+                + "Esta acción no se puede deshacer.",
+                "Confirmar Eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
         if (confirmacion == JOptionPane.YES_OPTION) {
             try {
                 materiaData.borrarMateria(materiaSeleccionada.getIdMateria());
-                
-                JOptionPane.showMessageDialog(this, 
-                    "Materia eliminada correctamente",
-                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                
+
+                JOptionPane.showMessageDialog(this, "Materia eliminada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 materiaSeleccionada = null;
                 deshabilitarBotones();
-                cargarDatosIniciales();
-                
+
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, 
-                    "Error al eliminar materia: " + e.getMessage(), 
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Error al eliminar materia: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-    
+
     private void guardarCambiosDesdeTabla() {
+        int filaSeleccionada = tablaMaterias.getSelectedRow();
+
         try {
-            int cambiosRealizados = 0;
-            int errores = 0;
-            
-            // Recorrer todas las filas de la tabla
-            for (int fila = 0; fila < modeloTabla.getRowCount(); fila++) {
-                try {
-                    int id = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
-                    String nombre = modeloTabla.getValueAt(fila, 1).toString().trim();
-                    int anio = Integer.parseInt(modeloTabla.getValueAt(fila, 2).toString());
-                    String estadoStr = modeloTabla.getValueAt(fila, 3).toString();
-                    boolean estado = estadoStr.equals("Activa");
-                    
-                    // Validar datos
-                    if (nombre.isEmpty()) {
-                        JOptionPane.showMessageDialog(this, 
-                            "El nombre no puede estar vacío en la fila " + (fila + 1),
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                        errores++;
-                        continue;
-                    }
-                    
-                    if (anio < 1 || anio > 6) {
-                        JOptionPane.showMessageDialog(this, 
-                            "El año debe estar entre 1 y 6 en la fila " + (fila + 1),
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                        errores++;
-                        continue;
-                    }
-                    
-                    // Buscar la materia original para comparar
-                    Materia materiaOriginal = null;
-                    for (Materia m : materiasEnMemoria) {
-                        if (m.getIdMateria() == id) {
-                            materiaOriginal = m;
-                            break;
-                        }
-                    }
-                    
-                    // Verificar si hubo cambios
-                    if (materiaOriginal != null) {
-                        boolean huboCambios = !materiaOriginal.getNombre().equals(nombre) ||
-                                             materiaOriginal.getAnio() != anio ||
-                                             materiaOriginal.isEstado() != estado;
-                        
-                        if (huboCambios) {
-                            // Actualizar en base de datos
-                            Materia materiaActualizada = new Materia(nombre, anio, estado);
-                            materiaData.actualizarMateria(materiaActualizada);
-                            cambiosRealizados++;
-                        }
-                    }
-                    
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, 
-                        "Error en la fila " + (fila + 1) + ": El año debe ser un número válido",
+            // obtener datos de la fila seleccionada
+            int id = Integer.parseInt(modeloTabla.getValueAt(filaSeleccionada, 0).toString());
+            String nombre = modeloTabla.getValueAt(filaSeleccionada, 1).toString().trim();
+            int anio = Integer.parseInt(modeloTabla.getValueAt(filaSeleccionada, 2).toString());
+            String estadoStr = modeloTabla.getValueAt(filaSeleccionada, 3).toString();
+            boolean estado = estadoStr.equals("Activa");
+
+            // controles
+            if (nombre.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "El nombre no puede estar vacío",
                         "Error", JOptionPane.ERROR_MESSAGE);
-                    errores++;
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(this, 
-                        "Error al actualizar fila " + (fila + 1) + ": " + e.getMessage(),
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                    errores++;
-                }
+                return;
             }
+
+            // Crear y actualizar materia
+            Materia materiaActualizada = new Materia(nombre, anio, estado);
+            materiaActualizada.setIdMateria(id);
+
+            materiaData.actualizarMateria(materiaActualizada);
+
+            JOptionPane.showMessageDialog(this,
+                    "Materia actualizada correctamente",
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
             
-            // Mostrar resumen
-            if (cambiosRealizados > 0 || errores > 0) {
-                String mensaje = "";
-                if (cambiosRealizados > 0) {
-                    mensaje += "✓ " + cambiosRealizados + " materias actualizadas correctamente\n";
-                }
-                if (errores > 0) {
-                    mensaje += "✗ " + errores + " errores encontrados\n";
-                }
-                if (cambiosRealizados == 0 && errores == 0) {
-                    mensaje = "No se detectaron cambios para guardar";
-                }
-                
-                JOptionPane.showMessageDialog(this, mensaje, "Resultado", JOptionPane.INFORMATION_MESSAGE);
-            }
-            
-            // Actualizar datos en memoria
             cargarDatosIniciales();
-            
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al guardar cambios: " + e.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error al actualizar materia: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void cambiarEstadoMateria() {
-        if (materiaSeleccionada == null) {
-            JOptionPane.showMessageDialog(this, 
-                "Seleccione una materia para cambiar estado", 
-                "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
+
         String nuevoEstado = (String) comboEstadosMateria.getSelectedItem();
         boolean estadoBoolean = nuevoEstado.equals("Activa");
-        
+
         try {
             if (estadoBoolean) {
                 materiaData.habilitarMateria(materiaSeleccionada);
             } else {
-                materiaData.deshabilitarMteria(materiaSeleccionada);
+                materiaData.deshabilitarMateria(materiaSeleccionada);
             }
-            
-            JOptionPane.showMessageDialog(this, 
-                "Estado de la materia cambiado a: " + nuevoEstado,
-                "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            
-            cargarDatosIniciales();
-            
+
+            JOptionPane.showMessageDialog(this,
+                    "Estado de la materia cambiado a: " + nuevoEstado,
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al cambiar estado: " + e.getMessage(), 
-                "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error al cambiar estado: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void seleccionarMateriaDeTabla() {
         int filaSeleccionada = tablaMaterias.getSelectedRow();
-        
+
         if (filaSeleccionada != -1) {
             try {
                 int id = Integer.parseInt(modeloTabla.getValueAt(filaSeleccionada, 0).toString());
@@ -360,51 +264,52 @@ public class VistaMateria extends javax.swing.JInternalFrame {
                 int anio = Integer.parseInt(modeloTabla.getValueAt(filaSeleccionada, 2).toString());
                 String estadoStr = modeloTabla.getValueAt(filaSeleccionada, 3).toString();
                 boolean estado = estadoStr.equals("Activa");
-                
+
                 materiaSeleccionada = new Materia(nombre, anio, estado);
-                
-                // Actualizar combo box con el estado actual
+                materiaSeleccionada.setIdMateria(id);
+
                 comboEstadosMateria.setSelectedItem(estadoStr);
-                
-                // Habilitar botones
+
                 habilitarBotones();
-                
+
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, 
-                    "Error al seleccionar materia: " + e.getMessage(), 
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Error al seleccionar materia: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-    
+
     private void habilitarBotones() {
         btnBorrarMateria.setEnabled(true);
         btnActualizarMateria.setEnabled(true);
         btnAltaBajaLogica.setEnabled(true);
         comboEstadosMateria.setEnabled(true);
     }
-    
+
     private void deshabilitarBotones() {
         btnBorrarMateria.setEnabled(false);
         btnActualizarMateria.setEnabled(false);
         btnAltaBajaLogica.setEnabled(false);
         comboEstadosMateria.setEnabled(false);
     }
-    
+
     private void restaurarEstadoNormal() {
         textNombreMateria.setText("");
         textAñoMateria.setText("");
         btnAgregarMateria.setText("Agregar");
-        
+
         // Restaurar ActionListener original
         for (java.awt.event.ActionListener al : btnAgregarMateria.getActionListeners()) {
             btnAgregarMateria.removeActionListener(al);
         }
         btnAgregarMateria.addActionListener(e -> agregarMateria());
-        
+
         materiaSeleccionada = null;
         deshabilitarBotones();
     }
+
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -451,6 +356,11 @@ public class VistaMateria extends javax.swing.JInternalFrame {
 
             }
         ));
+        tablaMaterias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMateriasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaMaterias);
 
         jLabel1.setText("Nombre de la Materia:");
@@ -642,8 +552,13 @@ public class VistaMateria extends javax.swing.JInternalFrame {
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
         // TODO add your handling code here:
-        seleccionarMateriaDeTabla();
+
     }//GEN-LAST:event_jScrollPane1MouseClicked
+
+    private void tablaMateriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMateriasMouseClicked
+        // TODO add your handling code here:
+        seleccionarMateriaDeTabla();
+    }//GEN-LAST:event_tablaMateriasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

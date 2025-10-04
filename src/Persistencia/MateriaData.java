@@ -32,7 +32,7 @@ public class MateriaData {
     }
 
     public void guardarMateria(Materia m) {
-        String query = "INSERT INTO alumno(nombre, año, Estado) VALUES (?,?,?)";
+        String query = "INSERT INTO materia(nombre, año, Estado) VALUES (?,?,?)";
         try {
             PreparedStatement ps = conexion.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, m.getNombre());
@@ -54,7 +54,7 @@ public class MateriaData {
 
     public Materia buscarMateria(String nombre) {
 
-        String sql = "SELECT * FROM materia WHERE nombre=?";
+        String sql = "SELECT * FROM materia WHERE nombre LIKE ?";
         Materia mate = null;
         try {
             PreparedStatement ps = conexion.prepareStatement(sql);
@@ -88,6 +88,7 @@ public class MateriaData {
             ResultSet resultado = ps.executeQuery();
             while (resultado.next()) {
                 Materia mate = new Materia(resultado.getString("nombre"), resultado.getInt("año"), resultado.getBoolean("Estado"));
+                 mate.setIdMateria(resultado.getInt("idMateria"));
                 materias.add(mate);
 
             }
@@ -109,6 +110,7 @@ public class MateriaData {
             ps.setString(1, m.getNombre());
             ps.setInt(2, m.getAnio());
             ps.setBoolean(3, m.isEstado());
+            ps.setInt(4, m.getIdMateria());
             ps.executeUpdate();
 
             ps.close();
@@ -134,12 +136,11 @@ public class MateriaData {
     }
 
     public void habilitarMateria(Materia m) {
-        String query = "UPDATE materia SET Estado = 1 WHERE idMateria = ? AND Estado = 0";
+        String query = "UPDATE materia SET Estado = 1 WHERE idMateria = ?";
         
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
                 ps.setInt(1, m.getIdMateria());
-                ps.setBoolean(2, m.isEstado());
                 ps.executeUpdate();
                 
                 ps.close();
@@ -149,13 +150,12 @@ public class MateriaData {
         }
     }
 
-    public void deshabilitarMteria(Materia m) {
-        String query = "UPDATE materia SET Estado = 0 WHERE idMateria = ? AND Estado = 1";
+    public void deshabilitarMateria(Materia m) {
+        String query = "UPDATE materia SET Estado = 0 WHERE idMateria = ?";
         
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
                 ps.setInt(1, m.getIdMateria());
-                ps.setBoolean(2, m.isEstado());
                 ps.executeUpdate();
                 
                 ps.close();

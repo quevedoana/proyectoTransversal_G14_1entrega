@@ -4,19 +4,30 @@
  */
 package Vista;
 
+import Modelo.Conexion;
+import Persistencia.MateriaData;
+
 /**
  *
  * @author maria
  */
 public class GestionUniversidad extends javax.swing.JFrame {
 
+    private static Conexion miConexion;
+    private static MateriaData materiaData;
     //ESTEBAN
-    
     /**
      * Creates new form GestionUniversidad
      */
     public GestionUniversidad() {
         initComponents();
+        conectar();
+    }
+    
+    static void conectar(){
+       miConexion = new Conexion("jdbc:mariadb://localhost/gp14_universidadulp","root","");
+       materiaData = new MateriaData(miConexion);
+      
     }
 
     /**
@@ -28,21 +39,64 @@ public class GestionUniversidad extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Escritorio = new javax.swing.JDesktopPane();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        gestionAlumnos = new javax.swing.JMenu();
+        gestionMaterias = new javax.swing.JMenu();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout EscritorioLayout = new javax.swing.GroupLayout(Escritorio);
+        Escritorio.setLayout(EscritorioLayout);
+        EscritorioLayout.setHorizontalGroup(
+            EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 473, Short.MAX_VALUE)
+        );
+        EscritorioLayout.setVerticalGroup(
+            EscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 508, Short.MAX_VALUE)
+        );
+
+        gestionAlumnos.setText("Gestionar Alumnos");
+        jMenuBar1.add(gestionAlumnos);
+
+        gestionMaterias.setText("Gestionar Materias");
+        gestionMaterias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gestionMateriasMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(gestionMaterias);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(Escritorio, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(Escritorio)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void gestionMateriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestionMateriasMouseClicked
+        // TODO add your handling code here:
+        
+        VistaMateria materiaFrame = new VistaMateria(materiaData);
+
+        materiaFrame.setLocation(
+                (Escritorio.getWidth() - materiaFrame.getWidth()) / 2,
+                (Escritorio.getHeight() - materiaFrame.getHeight()) / 2
+        );
+        Escritorio.add(materiaFrame);
+        materiaFrame.setVisible(true);
+    }//GEN-LAST:event_gestionMateriasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -80,5 +134,9 @@ public class GestionUniversidad extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDesktopPane Escritorio;
+    private javax.swing.JMenu gestionAlumnos;
+    private javax.swing.JMenu gestionMaterias;
+    private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }
