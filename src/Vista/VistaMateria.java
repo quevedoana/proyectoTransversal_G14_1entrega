@@ -200,7 +200,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
             // obtener datos de la fila seleccionada
             int id = Integer.parseInt(modeloTabla.getValueAt(filaSeleccionada, 0).toString());
             String nombre = modeloTabla.getValueAt(filaSeleccionada, 1).toString().trim();
-            int anio = Integer.parseInt(modeloTabla.getValueAt(filaSeleccionada, 2).toString());
+            int anio = Integer.parseInt(modeloTabla.getValueAt(filaSeleccionada, 2).toString().trim());
             String estadoStr = modeloTabla.getValueAt(filaSeleccionada, 3).toString();
             boolean estado = estadoStr.equals("Activa");
 
