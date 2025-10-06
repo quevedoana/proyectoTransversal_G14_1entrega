@@ -28,21 +28,191 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
+        comboEstadosMateria = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaMaterias = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        textBuscarNombreAlumno = new javax.swing.JTextField();
+        btnBuscarNombre = new javax.swing.JButton();
+        btnBorrarAlumno = new javax.swing.JButton();
+        btnRefrescar = new javax.swing.JButton();
+        btnActualizarAlumno = new javax.swing.JButton();
+        btnAltaBajaLogica = new javax.swing.JButton();
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Estado:");
+
+        comboEstadosMateria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activa", "Inactiva" }));
+
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane1MouseClicked(evt);
+            }
+        });
+
+        tablaMaterias.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablaMaterias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMateriasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaMaterias);
+
+        jLabel1.setText("Nombre del Alumno:");
+
+        btnBuscarNombre.setText("Buscar");
+        btnBuscarNombre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarNombreMouseClicked(evt);
+            }
+        });
+
+        btnBorrarAlumno.setText("Borrar");
+        btnBorrarAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBorrarAlumnoMouseClicked(evt);
+            }
+        });
+
+        btnRefrescar.setText("Refrescar Tabla");
+        btnRefrescar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRefrescarMouseClicked(evt);
+            }
+        });
+
+        btnActualizarAlumno.setText("Actualizar");
+        btnActualizarAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnActualizarAlumnoMouseClicked(evt);
+            }
+        });
+
+        btnAltaBajaLogica.setText("Editar Estado");
+        btnAltaBajaLogica.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAltaBajaLogicaMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboEstadosMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAltaBajaLogica)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(textBuscarNombreAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnBuscarNombre))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnBorrarAlumno)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnActualizarAlumno)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnRefrescar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(textBuscarNombreAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscarNombre))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBorrarAlumno)
+                    .addComponent(btnActualizarAlumno)
+                    .addComponent(btnRefrescar))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(comboEstadosMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAltaBajaLogica))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tablaMateriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMateriasMouseClicked
+        // TODO add your handling code here:
+        seleccionarMateriaDeTabla();
+    }//GEN-LAST:event_tablaMateriasMouseClicked
+
+    private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane1MouseClicked
+
+    private void btnBuscarNombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarNombreMouseClicked
+        // TODO add your handling code here:
+        buscarMateriaPorNombre();
+    }//GEN-LAST:event_btnBuscarNombreMouseClicked
+
+    private void btnBorrarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBorrarAlumnoMouseClicked
+        // TODO add your handling code here:
+        borrarMateria();
+    }//GEN-LAST:event_btnBorrarAlumnoMouseClicked
+
+    private void btnRefrescarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefrescarMouseClicked
+        // TODO add your handling code here:
+        cargarDatosIniciales();
+        restaurarEstadoNormal();
+    }//GEN-LAST:event_btnRefrescarMouseClicked
+
+    private void btnActualizarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarAlumnoMouseClicked
+        // TODO add your handling code here:
+        guardarCambiosDesdeTabla();
+    }//GEN-LAST:event_btnActualizarAlumnoMouseClicked
+
+    private void btnAltaBajaLogicaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltaBajaLogicaMouseClicked
+        // TODO add your handling code here:
+        cambiarEstadoMateria();
+    }//GEN-LAST:event_btnAltaBajaLogicaMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizarAlumno;
+    private javax.swing.JButton btnAltaBajaLogica;
+    private javax.swing.JButton btnBorrarAlumno;
+    private javax.swing.JButton btnBuscarNombre;
+    private javax.swing.JButton btnRefrescar;
+    private javax.swing.JComboBox<String> comboEstadosMateria;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tablaMaterias;
+    private javax.swing.JTextField textBuscarNombreAlumno;
     // End of variables declaration//GEN-END:variables
 }
