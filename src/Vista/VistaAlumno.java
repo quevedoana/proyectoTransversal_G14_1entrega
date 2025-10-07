@@ -7,6 +7,9 @@ package Vista;
 import Modelo.Alumno;
 import Modelo.Materia;
 import Persistencia.AlumnoData;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,11 +21,12 @@ import javax.swing.table.DefaultTableModel;
 public class VistaAlumno extends javax.swing.JInternalFrame {
 
     //PAULA
-    private static AlumnoData alumnoData;
+    private  AlumnoData alumnoData= new AlumnoData();
+    private Alumno alumnoAct= null;
     private DefaultTableModel modelo = new DefaultTableModel() {
         
         public boolean isCellEditable(int fila, int column) {
-            return false;
+            return column == 1 || column == 2 || column ==3 || column ==4;
         }
     };
 
@@ -63,6 +67,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
     }
     
     private void buscarAlumnoPorDni() {
+        try{
         String dni = textBuscarDniAlumno.getText().trim();
         modelo.setRowCount(0);
         if (dni.isEmpty()) {
@@ -70,33 +75,75 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
             return;
         }
 
-        try {
+        
             modelo.setRowCount(0);
 
-            Alumno a = alumnoData.buscarAlumno(Integer.parseInt(dni));
+             alumnoAct = alumnoData.buscarAlumno(Integer.parseInt(dni));
             String activo;
-            if (a != null) {
-                if(a.isEstado()){
+            if (alumnoAct != null) {
+                if(alumnoAct.isEstado()){
                         activo="Activo";
                     }else
                         activo="Inactivo";
                 modelo.addRow(new Object[]{
-                    a.getIdAlumno(),
-                    a.getDni(),
-                    a.getApellido(),
-                    a.getNombre(),
-                    a.getFechaNacimiento(),
+                    alumnoAct.getIdAlumno(),
+                    alumnoAct.getDni(),
+                    alumnoAct.getApellido(),
+                    alumnoAct.getNombre(),
+                    alumnoAct.getFechaNacimiento(),
                     activo
                     
                 });
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,"Error al buscar alumno: " + e.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,"El dni es un numero: " + e.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
+    private void agregarAlumnoNuevo() {
+        String nombre = txtNombre.getText().trim();
+        String apellido = txtApellido.getText().trim();
+        int dni = Integer.parseInt(txtDni.getText().trim());
+        LocalDate fecha = JDateFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
+        Alumno a = new Alumno(dni,apellido,nombre,fecha,true);
+        alumnoData.guardarAlumno(a);
+
+            
+        }
     
-    
+     private void borrarAlumno() {
+         int fila= jtAlumnos.getSelectedRow();
+         
+        if (fila != -1) {
+        int confirmar = JOptionPane.showConfirmDialog(
+            this,
+            "¿Seguro que desea eliminar el alumno seleccionado?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION
+        );
+        if (confirmar == JOptionPane.YES_OPTION) {
+            try {
+                alumnoData.BorrarAlumno();
+                
+                JOptionPane.showMessageDialog(this, "Materia eliminada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                materiaSeleccionada = null;
+                deshabilitarBotones();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                        "Error al eliminar materia: " + e.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+     }    
+    private void limpiarCampos(){
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtDni.setText("");
+        JDateFecha.setDate(new Date());
+    }
     /**
      * Creates new form VistaAlumno
      */
@@ -105,6 +152,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         armarCabecera();
         cargarDatos();
     }
+    
     
 
     /**
@@ -154,6 +202,11 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                 btnBuscarNombreMouseClicked(evt);
             }
         });
+        btnBuscarNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarNombreActionPerformed(evt);
+            }
+        });
 
         btnBorrarAlumno.setText("Borrar");
         btnBorrarAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -194,6 +247,11 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         jLabel7.setText("Fecha de Nacimiento: ");
 
         BtnAgregarAlumno.setText("Agregar");
+        BtnAgregarAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnAgregarAlumnoMouseClicked(evt);
+            }
+        });
         BtnAgregarAlumno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnAgregarAlumnoActionPerformed(evt);
@@ -359,6 +417,16 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
     private void BtnAgregarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarAlumnoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BtnAgregarAlumnoActionPerformed
+
+    private void BtnAgregarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAgregarAlumnoMouseClicked
+        // TODO add your handling code here:
+        agregarAlumnoNuevo();
+        limpiarCampos();
+    }//GEN-LAST:event_BtnAgregarAlumnoMouseClicked
+
+    private void btnBuscarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarNombreActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

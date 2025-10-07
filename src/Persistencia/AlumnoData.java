@@ -27,13 +27,11 @@ public class AlumnoData {
 
     private Connection conexion = null;
 
-    public AlumnoData(Conexion cone) {
-        this.conexion = cone.getConexion();
-    }
-
     public AlumnoData() {
+        conexion = Conexion.getConexion();
     }
 
+    
     public void guardarAlumno(Alumno a) { //insert
         String query = "INSERT INTO alumno( DNI, Apellido, Nombre, FechaNacimiento, Estado) VALUES (?,?,?,?,?)";
         try {

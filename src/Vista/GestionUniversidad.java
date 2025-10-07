@@ -6,6 +6,7 @@ package Vista;
 
 import Modelo.Conexion;
 import Persistencia.*;
+import java.sql.Connection;
 
 /**
  *
@@ -13,7 +14,6 @@ import Persistencia.*;
  */
 public class GestionUniversidad extends javax.swing.JFrame {
 
-    private static Conexion miConexion;
     private static MateriaData materiaData;
     private static AlumnoData alumnoData;
     //ESTEBAN
@@ -26,9 +26,9 @@ public class GestionUniversidad extends javax.swing.JFrame {
     }
     
     static void conectar(){
-       miConexion = new Conexion("jdbc:mariadb://localhost/gp14_universidadulp","root","");
-       materiaData = new MateriaData(miConexion);
-       alumnoData = new AlumnoData(miConexion);
+       Connection con = Conexion.getConexion();
+       materiaData = new MateriaData();
+       alumnoData = new AlumnoData();
       
     }
 
