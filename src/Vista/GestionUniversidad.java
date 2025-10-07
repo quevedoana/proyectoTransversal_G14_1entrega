@@ -5,7 +5,7 @@
 package Vista;
 
 import Modelo.Conexion;
-import Persistencia.MateriaData;
+import Persistencia.*;
 
 /**
  *
@@ -15,6 +15,7 @@ public class GestionUniversidad extends javax.swing.JFrame {
 
     private static Conexion miConexion;
     private static MateriaData materiaData;
+    private static AlumnoData alumnoData;
     //ESTEBAN
     /**
      * Creates new form GestionUniversidad
@@ -27,6 +28,7 @@ public class GestionUniversidad extends javax.swing.JFrame {
     static void conectar(){
        miConexion = new Conexion("jdbc:mariadb://localhost/gp14_universidadulp","root","");
        materiaData = new MateriaData(miConexion);
+       alumnoData = new AlumnoData(miConexion);
       
     }
 
@@ -53,11 +55,11 @@ public class GestionUniversidad extends javax.swing.JFrame {
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 473, Short.MAX_VALUE)
+            .addGap(0, 886, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 508, Short.MAX_VALUE)
+            .addGap(0, 603, Short.MAX_VALUE)
         );
 
         Escritorio.setLayer(escritorio, javax.swing.JLayeredPane.DEFAULT_LAYER);

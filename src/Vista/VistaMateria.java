@@ -89,7 +89,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
     }
 
     private void buscarMateriaPorNombre() {
-        String nombre = textBuscarNombreMateria.getText().trim(); //leo la materia ingresada
+        String nombre = textBuscarNombreMateria.getText().trim(); 
 
         if (nombre.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese un nombre para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
