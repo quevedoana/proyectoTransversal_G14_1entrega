@@ -32,6 +32,10 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         cargarDatosIniciales();
     }
 
+    VistaMateria() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     private void configurarComponentes() {
         configurarTabla();
 
