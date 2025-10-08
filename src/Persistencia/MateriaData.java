@@ -77,6 +77,31 @@ public class MateriaData {
         return mate;
 
     }
+public Materia buscarMateriaPorId(int idMateria) {
+
+        String sql = "SELECT * FROM materia WHERE idMateria= ?";
+        Materia mate = null;
+        try {
+            PreparedStatement ps = conexion.prepareStatement(sql);
+            ps.setInt(1, idMateria);
+            ResultSet resultado = ps.executeQuery();
+            if (resultado.next()) {
+
+                mate = new Materia(resultado.getString("nombre"), resultado.getInt("año"), resultado.getBoolean("Estado"));
+                mate.setIdMateria(resultado.getInt("idMateria"));
+
+            } else {
+                System.out.println("No se encontro la Materia");
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar la Materia" + e.getMessage());
+
+        }
+        return mate;
+
+    }
 
     public List<Materia> listarMaterias() {
 

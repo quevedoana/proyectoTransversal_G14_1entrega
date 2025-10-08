@@ -19,6 +19,10 @@ public class Materia {
         this.Estado = Estado;
     }
 
+    public Materia() {
+    }
+        
+
     public int getIdMateria() {
         return idMateria;
     }

@@ -79,6 +79,29 @@ public class AlumnoData {
         }
         return alu;
     }
+     public Alumno buscarAlumnoPorId(int idAlumno) { //select 1 alumno
+        String sql = "SELECT * FROM alumno WHERE idAlumno=?";
+        Alumno alu = null;
+        try {
+            PreparedStatement ps = conexion.prepareStatement(sql);
+            ps.setInt(1, idAlumno);
+            ResultSet resultado = ps.executeQuery();
+            if (resultado.next()) {
+
+                alu = new Alumno(resultado.getInt("DNI"), resultado.getString("Apellido"), resultado.getString("Nombre"), LocalDate.parse(resultado.getString("FechaNacimiento")), resultado.getBoolean("Estado"));
+                alu.setIdAlumno(resultado.getInt("idAlumno"));
+
+            } else {
+                System.out.println("No se encontro el alumno");
+            }
+            ps.close();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar el alumno" + e.getMessage());
+
+        }
+        return alu;
+    }
 
     public List<Alumno> listarAlumnos() { //select *
         String sql = "SELECT * FROM alumno WHERE 1";

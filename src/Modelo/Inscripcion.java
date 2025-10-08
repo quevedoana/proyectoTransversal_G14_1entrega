@@ -11,13 +11,32 @@ package Modelo;
 public class Inscripcion {
     //TURCO
     private int idInscripto;
-    private int nota;
-    private int idAlumno;
-    private int idMateria;
+    private double nota;
+    private Alumno alumno;
+    
+    private Materia materia;
 
-    public Inscripcion(int nota) {
+    public Inscripcion(int idInscripto,Alumno alumno, Materia materia,double nota) {
+        this.idInscripto = idInscripto;
         this.nota = nota;
+        this.alumno = alumno;
+        this.materia = materia;
     }
+    
+    
+
+    public Inscripcion(Alumno alumno, Materia materia,int nota) {
+        this.nota = nota;
+        this.alumno = alumno;
+        this.materia = materia;
+    }
+    
+
+    
+
+    public Inscripcion() {
+    }
+    
 
     public int getIdInscripto() {
         return idInscripto;
@@ -27,33 +46,44 @@ public class Inscripcion {
         this.idInscripto = idInscripto;
     }
 
-    public int getNota() {
+    public double getNota() {
         return nota;
     }
 
-    public void setNota(int nota) {
+    public void setNota(double nota) {
         this.nota = nota;
     }
 
-    public int getIdAlumno() {
-        return idAlumno;
+    public Alumno getAlumno() {
+        return alumno;
     }
 
-    public void setIdAlumno(int idAlumno) {
-        this.idAlumno = idAlumno;
+    public void setAlumno(Alumno Alumno) {
+        this.alumno = Alumno;
     }
 
-    public int getIdMateria() {
-        return idMateria;
+    public Materia getMateria() {
+        return materia;
     }
 
-    public void setIdMateria(int idMateria) {
-        this.idMateria = idMateria;
+    public void setMateria(Materia materia) {
+        this.materia = materia;
     }
 
     @Override
     public String toString() {
-        return "Inscripcion{" + "idInscripto=" + idInscripto + ", nota=" + nota + ", idAlumno=" + idAlumno + ", idMateria=" + idMateria + '}';
+        return "Inscripcion{" + "idInscripto=" + idInscripto + ", nota=" + nota + ", idAlumno=" + alumno.getIdAlumno() + ", idMateria=" + materia.getIdMateria() + '}';
     }
+
+    
+
+   
+
+   
+
+    
+    
+    
+
     
 }
