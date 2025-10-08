@@ -4,6 +4,16 @@
  */
 package Vista;
 
+import Modelo.Alumno;
+import Modelo.Inscripcion;
+import Modelo.Materia;
+import Persistencia.AlumnoData;
+import Persistencia.InscripcionData;
+import Persistencia.MateriaData;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author maria
@@ -13,8 +23,24 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     /**
      * Creates new form VistaInscripcion
      */
+    private ArrayList<Materia> listaM;
+    private ArrayList<Alumno> listaA;
+    
+    private InscripcionData inscData;
+    private MateriaData mData;
+    private AlumnoData aData;
+    
+    private DefaultTableModel modelo;
     public VistaInscripcion() {
         initComponents();
+        aData= new AlumnoData();
+        listaA=(ArrayList<Alumno>)aData.listarAlumnos();
+        modelo=new DefaultTableModel();
+        inscData=new InscripcionData();
+        mData=new MateriaData();
+        cargaAlumnos();
+        armarCabeceraTabla();
+           
     }
 
     /**
@@ -46,7 +72,6 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Seleccione un alumno:");
 
-        jcbSeleccionarAlumno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jcbSeleccionarAlumno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbSeleccionarAlumnoActionPerformed(evt);
@@ -57,6 +82,11 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         jLabel3.setText("Listado de Materias");
 
         jrbInscriptos.setText("Materias Inscriptas");
+        jrbInscriptos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jrbInscriptosMouseClicked(evt);
+            }
+        });
         jrbInscriptos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jrbInscriptosActionPerformed(evt);
@@ -64,6 +94,11 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         });
 
         jrbNoInscriptos.setText("Materias no Inscriptas");
+        jrbNoInscriptos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrbNoInscriptosActionPerformed(evt);
+            }
+        });
 
         jtMuestraInscriptos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -79,10 +114,22 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jtMuestraInscriptos);
 
         jbInscribir.setText("Inscribir");
+        jbInscribir.setEnabled(false);
+        jbInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbInscribirActionPerformed(evt);
+            }
+        });
 
         jbSalir.setText("Salir");
 
         jbAnularInscribir.setText("Anular Inscripcion");
+        jbAnularInscribir.setEnabled(false);
+        jbAnularInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAnularInscribirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,9 +178,9 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jrbInscriptos, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jrbNoInscriptos))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jrbNoInscriptos, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jrbInscriptos, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
@@ -148,13 +195,90 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jrbInscriptosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbInscriptosActionPerformed
-        // TODO add your handling code here:
+        borrarFilaTabla();
+        jrbNoInscriptos.setSelected(false);
+        cargaDatosInscriptas();
+        jbAnularInscribir.setEnabled(true);
+        jbInscribir.setEnabled(false);
     }//GEN-LAST:event_jrbInscriptosActionPerformed
 
     private void jcbSeleccionarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbSeleccionarAlumnoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jcbSeleccionarAlumnoActionPerformed
 
+    private void jrbInscriptosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jrbInscriptosMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jrbInscriptosMouseClicked
+
+    private void jrbNoInscriptosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbNoInscriptosActionPerformed
+        borrarFilaTabla();
+        jrbInscriptos.setEnabled(false);
+        cargaDatosNoInscriptas();
+        jbAnularInscribir.setEnabled(false);
+        jbInscribir.setEnabled(true);
+    }//GEN-LAST:event_jrbNoInscriptosActionPerformed
+
+    private void jbInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbInscribirActionPerformed
+        int filaSeleccionada=jtMuestraInscriptos.getSelectedRow();
+        if (filaSeleccionada!=-1) {
+            Alumno a=(Alumno)jcbSeleccionarAlumno.getSelectedItem();
+            
+            String nombreMateria=(String)modelo.getValueAt(filaSeleccionada, 1);
+            int anio=(Integer)modelo.getValueAt(filaSeleccionada, 2);
+            Materia m=new Materia(nombreMateria,anio,true);
+            Inscripcion i=new Inscripcion(a,m,0);
+            inscData.guardarInscripcion(i);
+            borrarFilaTabla();
+        }
+    }//GEN-LAST:event_jbInscribirActionPerformed
+
+    private void jbAnularInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAnularInscribirActionPerformed
+        int filaSeleccionada=jtMuestraInscriptos.getSelectedRow();
+        if (filaSeleccionada!=-1) {
+            Alumno a=(Alumno)jcbSeleccionarAlumno.getSelectedItem();
+            int idMateria=(Integer) modelo.getValueAt(filaSeleccionada, 0);
+            
+            inscData.borrarInscripcion(a.getIdAlumno(), idMateria);
+        }
+    }//GEN-LAST:event_jbAnularInscribirActionPerformed
+    private void cargaAlumnos(){
+        for (Alumno item : listaA) {
+            jcbSeleccionarAlumno.addItem(item);
+        }
+    }
+    
+    private void armarCabeceraTabla(){
+        ArrayList<Object> filaCabecera=new ArrayList<>();
+        filaCabecera.add("ID");
+        filaCabecera.add("Nombre");
+        filaCabecera.add("Año");
+        for (Object it : filaCabecera) {
+            modelo.addColumn(it);
+        }
+        jtMuestraInscriptos.setModel(modelo);
+    }
+    private void borrarFilaTabla(){
+        int indice=modelo.getRowCount()-1;
+        for (int i = 0; i >=0; i--) {
+            modelo.removeRow(i);
+        }
+    }
+    private void cargaDatosNoInscriptas(){
+        //borrarFilasTabla();
+        Alumno selec=(Alumno) jcbSeleccionarAlumno.getSelectedItem();
+        listaM=(ArrayList) inscData.obtenerMateriasNoCursadas(selec.getIdAlumno());
+        for (Materia m : listaM) {
+            modelo.addRow(new Object[]{m.getIdMateria(), m.getNombre(), m.getAnio()});
+        }
+    }
+    private void cargaDatosInscriptas(){
+        //borrarFilasTabla();
+        Alumno selec=(Alumno) jcbSeleccionarAlumno.getSelectedItem();
+        List <Materia> lista= inscData.obtenerMateriasCursadas(selec.getIdAlumno());
+        for (Materia m : lista) {
+            modelo.addRow(new Object[]{m.getIdMateria(), m.getNombre(), m.getAnio()});
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -164,7 +288,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbAnularInscribir;
     private javax.swing.JButton jbInscribir;
     private javax.swing.JButton jbSalir;
-    private javax.swing.JComboBox<String> jcbSeleccionarAlumno;
+    private javax.swing.JComboBox<Alumno> jcbSeleccionarAlumno;
     private javax.swing.JRadioButton jrbInscriptos;
     private javax.swing.JRadioButton jrbNoInscriptos;
     private javax.swing.JTable jtMuestraInscriptos;
