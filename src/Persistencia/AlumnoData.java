@@ -89,6 +89,7 @@ public class AlumnoData {
             ResultSet resultado = ps.executeQuery();
             while (resultado.next()) {
                 Alumno alu = new Alumno( resultado.getInt("DNI"), resultado.getString("Apellido"), resultado.getString("Nombre"), LocalDate.parse(resultado.getString("FechaNacimiento")), resultado.getBoolean("Estado"));
+                alu.setIdAlumno(resultado.getInt("idAlumno"));
                 alumnos.add(alu);
 
             }

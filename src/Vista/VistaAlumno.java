@@ -21,12 +21,12 @@ import javax.swing.table.DefaultTableModel;
 public class VistaAlumno extends javax.swing.JInternalFrame {
 
     //PAULA
-    private  AlumnoData alumnoData= new AlumnoData();
-    private Alumno alumnoAct= null;
+    private AlumnoData alumnoData = new AlumnoData();
+    private Alumno alumnoAct = null;
     private DefaultTableModel modelo = new DefaultTableModel() {
-        
+
         public boolean isCellEditable(int fila, int column) {
-            return column == 1 || column == 2 || column ==3 || column ==4;
+            return column == 1 || column == 2 || column == 3 || column == 4;
         }
     };
 
@@ -39,17 +39,18 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         modelo.addColumn("Estado");
         jtAlumnos.setModel(modelo);
     }
+
     private void cargarDatos() {
         String activo;
         try {
             modelo.setRowCount(0);
-            
 
             for (Alumno a : alumnoData.listarAlumnos()) {
-                if(a.isEstado()){
-                        activo="Activo";
-                    }else
-                        activo="Inactivo";
+                if (a.isEstado()) {
+                    activo = "Activo";
+                } else {
+                    activo = "Inactivo";
+                }
                 modelo.addRow(new Object[]{
                     a.getIdAlumno(),
                     a.getDni(),
@@ -57,7 +58,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                     a.getNombre(),
                     a.getFechaNacimiento(),
                     activo
-                    
+
                 });
             }
 
@@ -65,26 +66,26 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar los alumnos " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    private void buscarAlumnoPorDni() {
-        try{
-        String dni = textBuscarDniAlumno.getText().trim();
-        modelo.setRowCount(0);
-        if (dni.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese un nombre para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
 
-        
+    private void buscarAlumnoPorDni() {
+        try {
+            String dni = textBuscarDniAlumno.getText().trim();
+            modelo.setRowCount(0);
+            if (dni.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese un nombre para buscar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             modelo.setRowCount(0);
 
-             alumnoAct = alumnoData.buscarAlumno(Integer.parseInt(dni));
+            alumnoAct = alumnoData.buscarAlumno(Integer.parseInt(dni));
             String activo;
             if (alumnoAct != null) {
-                if(alumnoAct.isEstado()){
-                        activo="Activo";
-                    }else
-                        activo="Inactivo";
+                if (alumnoAct.isEstado()) {
+                    activo = "Activo";
+                } else {
+                    activo = "Inactivo";
+                }
                 modelo.addRow(new Object[]{
                     alumnoAct.getIdAlumno(),
                     alumnoAct.getDni(),
@@ -92,58 +93,124 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                     alumnoAct.getNombre(),
                     alumnoAct.getFechaNacimiento(),
                     activo
-                    
+
                 });
             }
+            textBuscarDniAlumno.setText("");
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,"El dni es un numero: " + e.getMessage(),"Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El dni es un numero: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void agregarAlumnoNuevo() {
         String nombre = txtNombre.getText().trim();
         String apellido = txtApellido.getText().trim();
         int dni = Integer.parseInt(txtDni.getText().trim());
         LocalDate fecha = JDateFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        
-        Alumno a = new Alumno(dni,apellido,nombre,fecha,true);
+
+        Alumno a = new Alumno(dni, apellido, nombre, fecha, true);
         alumnoData.guardarAlumno(a);
 
-            
-        }
-    
-     private void borrarAlumno() {
-         int fila= jtAlumnos.getSelectedRow();
-         
-        if (fila != -1) {
-        int confirmar = JOptionPane.showConfirmDialog(
-            this,
-            "¿Seguro que desea eliminar el alumno seleccionado?",
-            "Confirmar eliminación",
-            JOptionPane.YES_NO_OPTION
-        );
-        if (confirmar == JOptionPane.YES_OPTION) {
-            try {
-                alumnoData.BorrarAlumno();
-                
-                JOptionPane.showMessageDialog(this, "Materia eliminada correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                materiaSeleccionada = null;
-                deshabilitarBotones();
+    }
 
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this,
-                        "Error al eliminar materia: " + e.getMessage(),
-                        "Error", JOptionPane.ERROR_MESSAGE);
+    private void borrarAlumno() {
+        int fila = jtAlumnos.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "seleccione un alumno a eliminar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        }
+
+        if (fila != -1) {
+            int conf = JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Seguro que desea eliminar el alumno seleccionado?", "Advertencia", JOptionPane.YES_NO_OPTION);
+
+            if (conf == JOptionPane.YES_OPTION) {
+                try {
+                    int idAlumno = (int) jtAlumnos.getValueAt(fila, 0);
+
+                    alumnoData.BorrarAlumno(idAlumno);
+
+                    modelo.removeRow(fila);
+
+                    JOptionPane.showMessageDialog(this, "Alumno eliminado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this,
+                            "Error al eliminar el alumno: " + e.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
-     }    
-    private void limpiarCampos(){
+
+    private void guardarCambiosDesdeTabla() {
+        int filaSeleccionada = jtAlumnos.getSelectedRow();
+
+        try {
+            // obtener datos de la fila seleccionada
+            int id = Integer.parseInt(modelo.getValueAt(filaSeleccionada, 0).toString());
+            int dni = Integer.parseInt(modelo.getValueAt(filaSeleccionada, 1).toString().trim());
+            String apellido = modelo.getValueAt(filaSeleccionada, 2).toString().trim();
+            String nombre = modelo.getValueAt(filaSeleccionada, 3).toString().trim();
+            LocalDate anio = (LocalDate) modelo.getValueAt(filaSeleccionada, 4);
+            String estadoStr = modelo.getValueAt(filaSeleccionada, 5).toString();
+            boolean estado = estadoStr.equals("Activo");
+
+            Alumno AlumnoActualizado = new Alumno(dni, apellido, nombre, anio, estado);
+            AlumnoActualizado.setIdAlumno(id);
+
+            alumnoData.actualizarAlumno(AlumnoActualizado);
+
+            JOptionPane.showMessageDialog(this, "Alumno actualizado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            cargarDatos();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al actualizar alumno: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void cambiarEstadoAlumno() {
+        int fila = jtAlumnos.getSelectedRow();
+        Alumno aux = new Alumno();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un alumno", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        aux.setIdAlumno((int) modelo.getValueAt(fila, 0));
+        aux.setDni((int) modelo.getValueAt(fila, 1));
+        aux.setApellido((String) modelo.getValueAt(fila, 2));
+        aux.setNombre((String) modelo.getValueAt(fila, 3));
+        String nuevoEstado = (String) comboEstadosMateria.getSelectedItem();
+        boolean estadoBoolean = nuevoEstado.equals("Activo");
+
+        try {
+            if (estadoBoolean) {
+                
+                alumnoData.HabilitarAlumno(aux);
+            } else {
+                
+                alumnoData.DeshabilitarAlumno(aux);
+            }
+            cargarDatos();
+
+            JOptionPane.showMessageDialog(this, "Estado de la materia cambiado a: " + nuevoEstado, "Exito", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al cambiar estado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    
+
+    private void limpiarCampos() {
         txtNombre.setText("");
         txtApellido.setText("");
         txtDni.setText("");
         JDateFecha.setDate(new Date());
     }
+
     /**
      * Creates new form VistaAlumno
      */
@@ -152,8 +219,6 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         armarCabecera();
         cargarDatos();
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -192,7 +257,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Estado:");
 
-        comboEstadosMateria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activa", "Inactiva" }));
+        comboEstadosMateria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
 
         jLabel1.setText("Dni del Alumno:");
 
@@ -391,27 +456,31 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
     private void btnBuscarNombreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarNombreMouseClicked
         // TODO add your handling code here:
         buscarAlumnoPorDni();
-        
+
     }//GEN-LAST:event_btnBuscarNombreMouseClicked
 
     private void btnBorrarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBorrarAlumnoMouseClicked
         // TODO add your handling code here:
-        
+        borrarAlumno();
+
     }//GEN-LAST:event_btnBorrarAlumnoMouseClicked
 
     private void btnRefrescarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefrescarMouseClicked
         // TODO add your handling code here:
-       
+        cargarDatos();
+
     }//GEN-LAST:event_btnRefrescarMouseClicked
 
     private void btnActualizarAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarAlumnoMouseClicked
         // TODO add your handling code here:
-        
+        guardarCambiosDesdeTabla();
+
     }//GEN-LAST:event_btnActualizarAlumnoMouseClicked
 
     private void btnAltaBajaLogicaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAltaBajaLogicaMouseClicked
         // TODO add your handling code here:
-       
+        cambiarEstadoAlumno();
+
     }//GEN-LAST:event_btnAltaBajaLogicaMouseClicked
 
     private void BtnAgregarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarAlumnoActionPerformed

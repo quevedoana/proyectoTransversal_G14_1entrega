@@ -12,7 +12,7 @@ import java.time.LocalDate;
  * @author Anitabonita
  */
 public class Alumno {
-    private int idAlumno;
+    private int idAlumno=-1;
     private int dni;
     private String apellido;
     private String nombre;
@@ -26,6 +26,10 @@ public class Alumno {
         this.fechaNacimiento = fechaNacimiento;
         this.estado = estado;
     }
+
+    public Alumno() {
+    }
+    
 
     public int getIdAlumno() {
         return idAlumno;
