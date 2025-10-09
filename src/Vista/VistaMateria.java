@@ -333,6 +333,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         textNombreMateria = new javax.swing.JTextField();
         textAñoMateria = new javax.swing.JTextField();
+        jBSalir = new javax.swing.JButton();
         btnRefrescar = new javax.swing.JButton();
 
         setTitle("Ver Materias");
@@ -411,6 +412,13 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Año:");
 
+        jBSalir.setText("Salir");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -424,7 +432,9 @@ public class VistaMateria extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(textNombreMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(textAñoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jBSalir)
+                            .addComponent(textAñoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAgregarMateria)))
                 .addContainerGap(65, Short.MAX_VALUE))
@@ -441,7 +451,8 @@ public class VistaMateria extends javax.swing.JInternalFrame {
                     .addComponent(jLabel4)
                     .addComponent(textAñoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregarMateria))
-                .addGap(15, 15, 15))
+                .addGap(29, 29, 29)
+                .addComponent(jBSalir))
         );
 
         btnRefrescar.setText("Refrescar Tabla");
@@ -511,7 +522,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
                     .addComponent(btnAltaBajaLogica))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -558,6 +569,11 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         seleccionarMateriaDeTabla();
     }//GEN-LAST:event_tablaMateriasMouseClicked
 
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarMateria;
@@ -567,6 +583,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscarNombre;
     private javax.swing.JButton btnRefrescar;
     private javax.swing.JComboBox<String> comboEstadosMateria;
+    private javax.swing.JButton jBSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

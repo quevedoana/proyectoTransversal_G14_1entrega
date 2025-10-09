@@ -122,6 +122,11 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         });
 
         jbSalir.setText("Salir");
+        jbSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalirActionPerformed(evt);
+            }
+        });
 
         jbAnularInscribir.setText("Anular Inscripcion");
         jbAnularInscribir.setEnabled(false);
@@ -241,6 +246,11 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
             inscData.borrarInscripcion(a.getIdAlumno(), idMateria);
         }
     }//GEN-LAST:event_jbAnularInscribirActionPerformed
+
+    private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jbSalirActionPerformed
     private void cargaAlumnos(){
         for (Alumno item : listaA) {
             jcbSeleccionarAlumno.addItem(item);

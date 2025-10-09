@@ -251,6 +251,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         BtnAgregarAlumno = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtAlumnos = new javax.swing.JTable();
+        jBSalir = new javax.swing.JButton();
 
         jLabel3.setText("jLabel3");
 
@@ -389,6 +390,13 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(jtAlumnos);
 
+        jBSalir.setText("Salir");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -424,6 +432,10 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnBuscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(263, 263, 263)
+                .addComponent(jBSalir)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -447,7 +459,8 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
                     .addComponent(btnAltaBajaLogica))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBSalir))
         );
 
         pack();
@@ -497,6 +510,11 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBuscarNombreActionPerformed
 
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregarAlumno;
@@ -507,6 +525,7 @@ public class VistaAlumno extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscarNombre;
     private javax.swing.JButton btnRefrescar;
     private javax.swing.JComboBox<String> comboEstadosMateria;
+    private javax.swing.JButton jBSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
