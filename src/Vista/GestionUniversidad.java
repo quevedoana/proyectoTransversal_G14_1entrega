@@ -4,9 +4,7 @@
  */
 package Vista;
 
-import Modelo.Conexion;
-import Persistencia.*;
-import java.sql.Connection;
+
 
 /**
  *
@@ -14,8 +12,7 @@ import java.sql.Connection;
  */
 public class GestionUniversidad extends javax.swing.JFrame {
 
-    private static MateriaData materiaData;
-    private static AlumnoData alumnoData;
+    
     //ESTEBAN
     /**
      * Creates new form GestionUniversidad
@@ -25,7 +22,6 @@ public class GestionUniversidad extends javax.swing.JFrame {
         
     }
     
-   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -97,11 +93,6 @@ public class GestionUniversidad extends javax.swing.JFrame {
         jMenuBar1.add(gestionAlumnos);
 
         gestionMaterias.setText("Gestionar Materias");
-        gestionMaterias.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gestionMateriasMouseClicked(evt);
-            }
-        });
 
         jMenuItem2.setText("Materias");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -177,19 +168,6 @@ public class GestionUniversidad extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void gestionMateriasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gestionMateriasMouseClicked
-        // TODO add your handling code here:
-        
-        VistaMateria materiaFrame = new VistaMateria();
-
-        materiaFrame.setLocation(
-                (Escritorio.getWidth() - materiaFrame.getWidth()) / 2,
-                (Escritorio.getHeight() - materiaFrame.getHeight()) / 2
-        );
-        Escritorio.add(materiaFrame);
-        materiaFrame.setVisible(true);
-    }//GEN-LAST:event_gestionMateriasMouseClicked
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         escritorio.removeAll();
@@ -203,12 +181,14 @@ public class GestionUniversidad extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        escritorio.removeAll();
-        escritorio.repaint();
-        VistaMateria vm = new VistaMateria();
-        vm.setVisible(true);
-        escritorio.add(vm);
-        escritorio.moveToFront(vm);
+        VistaMateria materiaFrame = new VistaMateria();
+
+        materiaFrame.setLocation(
+                (Escritorio.getWidth() - materiaFrame.getWidth()) / 2,
+                (Escritorio.getHeight() - materiaFrame.getHeight()) / 2
+        );
+        Escritorio.add(materiaFrame);
+        materiaFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed

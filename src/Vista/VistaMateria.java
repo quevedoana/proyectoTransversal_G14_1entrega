@@ -30,8 +30,6 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         cargarDatosIniciales();
     }
 
-    
-
     private void configurarComponentes() {
         configurarTabla();
 
@@ -160,7 +158,11 @@ public class VistaMateria extends javax.swing.JInternalFrame {
                     "El año debe ser un número válido",
                     "Error", JOptionPane.ERROR_MESSAGE);
             textAñoMateria.requestFocus();
-        } 
+        }   catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al agregar materia: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void borrarMateria() {
