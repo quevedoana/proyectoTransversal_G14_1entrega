@@ -31,7 +31,7 @@ public class MateriaData {
     
 
     public void guardarMateria(Materia m) {
-        String query = "INSERT INTO materia(nombre, año, Estado) VALUES (?,?,?)";
+        String query = "INSERT INTO materia(nombre, anio, Estado) VALUES (?,?,?)";
         try {
             PreparedStatement ps = conexion.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, m.getNombre());
@@ -61,7 +61,7 @@ public class MateriaData {
             ResultSet resultado = ps.executeQuery();
             if (resultado.next()) {
 
-                mate = new Materia(resultado.getString("nombre"), resultado.getInt("año"), resultado.getBoolean("Estado"));
+                mate = new Materia(resultado.getString("nombre"), resultado.getInt("anio"), resultado.getBoolean("Estado"));
                 mate.setIdMateria(resultado.getInt("idMateria"));
 
             } else {
@@ -86,7 +86,7 @@ public Materia buscarMateriaPorId(int idMateria) {
             ResultSet resultado = ps.executeQuery();
             if (resultado.next()) {
 
-                mate = new Materia(resultado.getString("nombre"), resultado.getInt("año"), resultado.getBoolean("Estado"));
+                mate = new Materia(resultado.getString("nombre"), resultado.getInt("anio"), resultado.getBoolean("Estado"));
                 mate.setIdMateria(resultado.getInt("idMateria"));
 
             } else {
@@ -111,7 +111,7 @@ public Materia buscarMateriaPorId(int idMateria) {
             PreparedStatement ps = conexion.prepareStatement(sql);
             ResultSet resultado = ps.executeQuery();
             while (resultado.next()) {
-                Materia mate = new Materia(resultado.getString("nombre"), resultado.getInt("año"), resultado.getBoolean("Estado"));
+                Materia mate = new Materia(resultado.getString("nombre"), resultado.getInt("anio"), resultado.getBoolean("Estado"));
                  mate.setIdMateria(resultado.getInt("idMateria"));
                 materias.add(mate);
 
@@ -127,7 +127,7 @@ public Materia buscarMateriaPorId(int idMateria) {
     }
 
     public void actualizarMateria(Materia m) {
-        String query = "UPDATE materia SET nombre = ?, año = ?, Estado = ? WHERE idMateria = ?";
+        String query = "UPDATE materia SET nombre = ?, anio = ?, Estado = ? WHERE idMateria = ?";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
