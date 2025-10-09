@@ -17,10 +17,9 @@ import javax.swing.table.DefaultTableModel;
 public class VistaMateria extends javax.swing.JInternalFrame {
 
     //CANDE
-    private MateriaData materiaData;
+    private MateriaData materiaData = new MateriaData();
     private DefaultTableModel modeloTabla;
     private Materia materiaSeleccionada;
-    private List<Materia> materiasEnMemoria;
 
     /**
      * Creates new form VistaMateria
@@ -135,7 +134,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
         }
 
         try {
-            int anio = Integer.parseInt(anioStr);
+            int anio=Integer.parseInt(anioStr);
 
             if (anio < 2023 || anio > 2027) {
                 JOptionPane.showMessageDialog(this,
@@ -161,11 +160,7 @@ public class VistaMateria extends javax.swing.JInternalFrame {
                     "El año debe ser un número válido",
                     "Error", JOptionPane.ERROR_MESSAGE);
             textAñoMateria.requestFocus();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Error al agregar materia: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        } 
     }
 
     private void borrarMateria() {

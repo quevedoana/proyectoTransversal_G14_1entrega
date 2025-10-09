@@ -24,12 +24,11 @@ public class MateriaData {
     //insertar, actualizar, buscar, baja/altaLogica, y borrar
     private Connection conexion = null;
 
-    public MateriaData(Conexion cone) {
-        this.conexion = cone.getConexion();
+    public MateriaData() {
+        conexion = Conexion.getConexion();;
     }
 
-    public MateriaData() {
-    }
+    
 
     public void guardarMateria(Materia m) {
         String query = "INSERT INTO materia(nombre, año, Estado) VALUES (?,?,?)";
