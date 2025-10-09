@@ -218,6 +218,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
     private void jrbNoInscriptosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbNoInscriptosActionPerformed
         borrarFilaTabla();
         //jrbInscriptos.setEnabled(false);
+        jrbInscriptos.setSelected(false);
         cargaDatosNoInscriptas();
         jbAnularInscribir.setEnabled(false);
         jbInscribir.setEnabled(true);
