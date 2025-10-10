@@ -4,17 +4,48 @@
  */
 package Vista;
 
+import Modelo.Alumno;
+import Modelo.Materia;
+import Persistencia.InscripcionData;
+import Persistencia.MateriaData;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author maria
  */
 public class VistaListarInscripciones extends javax.swing.JInternalFrame {
+    private MateriaData md = new MateriaData();
+    private InscripcionData id = new InscripcionData();
+    private DefaultTableModel modelo = new DefaultTableModel();
 
     /**
      * Creates new form VistaListarInscripciones
      */
     public VistaListarInscripciones() {
         initComponents();
+        cargarCombo();
+        armarCabecera();
+    }
+    private void cargarCombo(){
+        for (Materia m : md.listarMaterias()) {
+            jcbMateria.addItem(m);
+        }
+    }
+    private void armarCabecera(){
+        modelo.addColumn("ID");
+        modelo.addColumn("DNI");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("Nombre");
+        jtListaAlumnos.setModel(modelo);
+        
+        
+    }
+    private void cargarDatos(Alumno a){
+        modelo.addRow(new Object[]{a.getIdAlumno(),a.getDni(),a.getApellido(),a.getNombre()});
     }
 
     /**
@@ -28,9 +59,9 @@ public class VistaListarInscripciones extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jcSeleccioneMateria = new javax.swing.JComboBox<>();
+        jcbMateria = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtListadoMateria = new javax.swing.JTable();
+        jtListaAlumnos = new javax.swing.JTable();
         jbSalir = new javax.swing.JButton();
 
         setTitle("Listado de Alumnos por Materia");
@@ -40,9 +71,13 @@ public class VistaListarInscripciones extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Seleccione una Materia");
 
-        jcSeleccioneMateria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbMateriaActionPerformed(evt);
+            }
+        });
 
-        jtListadoMateria.setModel(new javax.swing.table.DefaultTableModel(
+        jtListaAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -53,7 +88,7 @@ public class VistaListarInscripciones extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jtListadoMateria);
+        jScrollPane1.setViewportView(jtListaAlumnos);
 
         jbSalir.setText("Salir");
         jbSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -75,7 +110,7 @@ public class VistaListarInscripciones extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addComponent(jLabel2)
                         .addGap(72, 72, 72)
-                        .addComponent(jcSeleccioneMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jcbMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -93,7 +128,7 @@ public class VistaListarInscripciones extends javax.swing.JInternalFrame {
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jcSeleccioneMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcbMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -106,7 +141,22 @@ public class VistaListarInscripciones extends javax.swing.JInternalFrame {
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
         // TODO add your handling code here:
+       this.dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void jcbMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbMateriaActionPerformed
+        // TODO add your handling code here:
+        modelo.setRowCount(0);
+        Materia materiaseleccionada = (Materia)jcbMateria.getSelectedItem();
+        List<Alumno> alumnos = id.obtenerAlumnoXMateria(materiaseleccionada.getIdMateria());
+        
+        for (Alumno a : alumnos) {
+            cargarDatos(a);
+        }
+        
+        
+     
+    }//GEN-LAST:event_jcbMateriaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -114,7 +164,9 @@ public class VistaListarInscripciones extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbSalir;
-    private javax.swing.JComboBox<String> jcSeleccioneMateria;
-    private javax.swing.JTable jtListadoMateria;
+    private javax.swing.JComboBox<Materia> jcbMateria;
+    private javax.swing.JTable jtListaAlumnos;
     // End of variables declaration//GEN-END:variables
+
+    
 }

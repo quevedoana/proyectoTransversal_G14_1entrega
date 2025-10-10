@@ -210,7 +210,7 @@ return materias;
      }
      public List<Alumno> obtenerAlumnoXMateria(int idMateria){
          List<Alumno> alumnos = new ArrayList();
-          String sql = "SELECT a.idAlumno, Nombre, Apellido,FechaNacimiento, Estado "
+          String sql = "SELECT a.idAlumno, DNI, Nombre, Apellido,FechaNacimiento, Estado "
                     +"FROM inscripcion i, alumno a WHERE i.idAlumno = a.idAlumno AND idMateria=? AND a.Estado = 1 ";
          try {
            
