@@ -166,7 +166,7 @@ public class InscripcionData {
     }
     public List<Materia> obtenerMateriasCursadas(int idAlumno){
          List<Materia> materias = new ArrayList();
-         String sql = "SELECT inscripcion.idMateria, nombre, año FROM inscripcion,"
+         String sql = "SELECT inscripcion.idMateria, nombre, anio FROM inscripcion,"
                  + "materia WHERE inscripcion.idMateria = materia.idMateria " +
                  " AND inscripcion.idAlumno=?;";
         try {
@@ -177,7 +177,7 @@ public class InscripcionData {
                 Materia materia = new Materia();
                 materia.setIdMateria(rs.getInt("idMateria"));
                 materia.setNombre(rs.getString("nombre"));
-                materia.setAnio(rs.getInt("año"));
+                materia.setAnio(rs.getInt("anio"));
                 materias.add(materia);
             }
             ps.close();
@@ -198,7 +198,7 @@ return materias;
                 Materia materia = new Materia();
                 materia.setIdMateria(rs.getInt("idMateria"));
                 materia.setNombre(rs.getString("nombre"));
-                materia.setAnio(rs.getInt("año"));
+                materia.setAnio(rs.getInt("anio"));
                 materias.add(materia);
             }
             ps.close();

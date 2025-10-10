@@ -217,7 +217,8 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
 
     private void jrbNoInscriptosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbNoInscriptosActionPerformed
         borrarFilaTabla();
-        jrbInscriptos.setEnabled(false);
+        //jrbInscriptos.setEnabled(false);
+        jrbInscriptos.setSelected(false);
         cargaDatosNoInscriptas();
         jbAnularInscribir.setEnabled(false);
         jbInscribir.setEnabled(true);
@@ -229,8 +230,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
             Alumno a=(Alumno)jcbSeleccionarAlumno.getSelectedItem();
             
             String nombreMateria=(String)modelo.getValueAt(filaSeleccionada, 1);
-            int anio=(Integer)modelo.getValueAt(filaSeleccionada, 2);
-            Materia m=new Materia(nombreMateria,anio,true);
+            Materia m=mData.buscarMateria(nombreMateria);
             Inscripcion i=new Inscripcion(a,m,0);
             inscData.guardarInscripcion(i);
             borrarFilaTabla();
@@ -268,10 +268,7 @@ public class VistaInscripcion extends javax.swing.JInternalFrame {
         jtMuestraInscriptos.setModel(modelo);
     }
     private void borrarFilaTabla(){
-        int indice=modelo.getRowCount()-1;
-        for (int i = 0; i >=0; i--) {
-            modelo.removeRow(i);
-        }
+        modelo.setRowCount(0);
     }
     private void cargaDatosNoInscriptas(){
         //borrarFilasTabla();

@@ -2,19 +2,45 @@
 package Vista;
 
 import Modelo.Alumno;
+import Persistencia.AlumnoData;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author maria
  */
 public class VistaCargaNotas extends javax.swing.JInternalFrame {
+    
+    
+    
+    private AlumnoData aData = new AlumnoData ();
+    private List<Alumno> listaA;
 
     /**
      * Creates new form VistaCargaNotas
      */
     public VistaCargaNotas() {
         initComponents();
+        listaA = aData.listarAlumnos();
+        armarCabecera();
+
+        cargaAlumnos();
+        
+        
+        
     }
+        private void cargaAlumnos(){
+        for (Alumno item : listaA) {
+            jCBalumno.addItem(item);
+        }
+        
+        
+        
+    }
+    //return column == 2
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -141,4 +167,25 @@ public class VistaCargaNotas extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTtabla;
     // End of variables declaration//GEN-END:variables
+
+    private DefaultTableModel modelo = new DefaultTableModel() {
+
+        public boolean isCellEditable(int fila, int column) {
+            return column == 2;
+        }
+    };
+
+    private void armarCabecera() {
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Nota");
+        
+        jTtabla.setModel(modelo);
+    }
+    
+    private void JBSalirActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        // TODO add your handling code here:
+        this.dispose();
+    }
+    
 }
