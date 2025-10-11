@@ -18,9 +18,14 @@ import javax.swing.table.DefaultTableModel;
  * @author maria
  */
 public class VistaListarInscripciones extends javax.swing.JInternalFrame {
+
     private MateriaData md = new MateriaData();
     private InscripcionData id = new InscripcionData();
-    private DefaultTableModel modelo = new DefaultTableModel();
+    private DefaultTableModel modelo = new DefaultTableModel(){
+    @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }};
 
     /**
      * Creates new form VistaListarInscripciones
@@ -30,22 +35,27 @@ public class VistaListarInscripciones extends javax.swing.JInternalFrame {
         cargarCombo();
         armarCabecera();
     }
-    private void cargarCombo(){
+
+    private void cargarCombo() {
         for (Materia m : md.listarMaterias()) {
-            jcbMateria.addItem(m);
+            if (m.isEstado() == true) {
+                jcbMateria.addItem(m);
+            }
         }
     }
-    private void armarCabecera(){
+
+    private void armarCabecera() {
+        
         modelo.addColumn("ID");
         modelo.addColumn("DNI");
         modelo.addColumn("Apellido");
         modelo.addColumn("Nombre");
         jtListaAlumnos.setModel(modelo);
-        
-        
+
     }
-    private void cargarDatos(Alumno a){
-        modelo.addRow(new Object[]{a.getIdAlumno(),a.getDni(),a.getApellido(),a.getNombre()});
+
+    private void cargarDatos(Alumno a) {
+        modelo.addRow(new Object[]{a.getIdAlumno(), a.getDni(), a.getApellido(), a.getNombre()});
     }
 
     /**
@@ -141,21 +151,18 @@ public class VistaListarInscripciones extends javax.swing.JInternalFrame {
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
         // TODO add your handling code here:
-       this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
 
     private void jcbMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbMateriaActionPerformed
         // TODO add your handling code here:
         modelo.setRowCount(0);
-        Materia materiaseleccionada = (Materia)jcbMateria.getSelectedItem();
+        Materia materiaseleccionada = (Materia) jcbMateria.getSelectedItem();
         List<Alumno> alumnos = id.obtenerAlumnoXMateria(materiaseleccionada.getIdMateria());
-        
+
         for (Alumno a : alumnos) {
             cargarDatos(a);
         }
-        
-        
-     
     }//GEN-LAST:event_jcbMateriaActionPerformed
 
 
@@ -168,5 +175,4 @@ public class VistaListarInscripciones extends javax.swing.JInternalFrame {
     private javax.swing.JTable jtListaAlumnos;
     // End of variables declaration//GEN-END:variables
 
-    
 }
